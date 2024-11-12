@@ -12,6 +12,14 @@ services:
       - myapp_network
     depends_on:
       - mysql
+    environment:
+      - PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
   mysql:
     image: mysql:8.0
@@ -38,6 +46,12 @@ services:
       - myapp_network
     depends_on:
       - app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nginx:80"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
 networks:
   myapp_network:
